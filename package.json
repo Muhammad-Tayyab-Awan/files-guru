@@ -1,0 +1,14 @@
+{
+  "name": "files-guru",
+  "version": "1.0.0",
+  "description": "Handles Files",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Files"
+  ],
+  "author": "muhammad-tayyab-awan",
+  "license": "ISC"
+}
