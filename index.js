@@ -14,7 +14,7 @@ module.exports = {
           movedFiles.push(`${newPath}\\${item}`);
         }
         return {
-          filesAndFoldersMoved: content.length,
+          filesAndFoldersMoved: movedFiles.length,
           movedFiles: movedFiles
         };
       } else {
