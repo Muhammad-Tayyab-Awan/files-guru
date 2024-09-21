@@ -1,6 +1,6 @@
 {
   "name": "files-guru",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Handles Files",
   "main": "index.js",
   "scripts": {
@@ -14,5 +14,5 @@
     "Files"
   ],
   "author": "muhammad-tayyab-awan",
-  "license": "ISC"
+  "license": "MIT"
 }
