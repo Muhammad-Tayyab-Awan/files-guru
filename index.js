@@ -60,7 +60,7 @@ module.exports = {
               renamedFiles: renamedFiles
             };
           } else {
-            return `Some Files with name ${newName} already exists`;
+            return `Some Files with name \"${newName}\" already exists`;
           }
         } else {
           return `No files found in \"${dirPath}\" folder`;
