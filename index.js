@@ -14,7 +14,7 @@ module.exports = {
           movedFiles.push(`${newPath}\\${item}`);
         }
         return {
-          filesAndFoldersMoved: movedFiles.length,
+          filesAndFoldersMoved: content.length,
           movedFiles: movedFiles
         };
       } else {
@@ -39,17 +39,29 @@ module.exports = {
           }
         });
         if (files.length > 0) {
-          let renamedFiles = files.map((item, index) => {
-            fs.renameSync(
-              `${dirPath}\\${item}`,
-              `${dirPath}\\${newName} ${index + 1}${path.extname(item)}`
-            );
-            return `${dirPath}\\${newName} ${index + 1}${path.extname(item)}`;
-          });
-          return {
-            totalFilesRenamed: files.length,
-            renamedFiles: renamedFiles
-          };
+          let present = 0;
+          for (let i = 0; i < files.length; i++) {
+            for (let j = 0; j < files.length; j++) {
+              if (files[i] === `${newName} ${j + 1}${path.extname(files[i])}`) {
+                present++;
+              }
+            }
+          }
+          if (present == 0) {
+            let renamedFiles = files.map((item, index) => {
+              fs.renameSync(
+                `${dirPath}\\${item}`,
+                `${dirPath}\\${newName} ${index + 1}${path.extname(item)}`
+              );
+              return `${dirPath}\\${newName} ${index + 1}${path.extname(item)}`;
+            });
+            return {
+              totalFilesRenamed: files.length,
+              renamedFiles: renamedFiles
+            };
+          } else {
+            return `Some Files with name ${newName} already exists`;
+          }
         } else {
           return `No files found in \"${dirPath}\" folder`;
         }
