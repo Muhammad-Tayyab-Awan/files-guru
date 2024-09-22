@@ -39,28 +39,55 @@ module.exports = {
           }
         });
         if (files.length > 0) {
-          let present = 0;
+          let filesFound = [];
+          let filesNotFound = [];
           for (let i = 0; i < files.length; i++) {
             for (let j = 0; j < files.length; j++) {
               if (files[i] === `${newName} ${j + 1}${path.extname(files[i])}`) {
-                present++;
+                filesFound.push(files[i]);
               }
             }
           }
-          if (present == 0) {
-            let renamedFiles = files.map((item, index) => {
+          filesNotFound = files.filter(file => {
+            return filesFound.indexOf(file) === -1;
+          });
+          if (filesNotFound.length > 0) {
+            let indexOfFilesFound = [];
+            let indexOfFilesNotFound = [];
+            filesFound.map(file => {
+              indexOfFilesFound.push(
+                file.split(" ")[file.split(" ").length - 1].split(".")[0]
+              );
+            });
+            indexOfFilesFound = indexOfFilesFound
+              .map(val => {
+                return parseInt(val);
+              })
+              .sort((a, b) => {
+                return a - b;
+              });
+            for (let i = 0; i < files.length; i++) {
+              if (!indexOfFilesFound.includes(i + 1)) {
+                indexOfFilesNotFound.push(i + 1);
+              }
+            }
+            let renamedFiles = filesNotFound.map((item, index) => {
               fs.renameSync(
                 `${dirPath}\\${item}`,
-                `${dirPath}\\${newName} ${index + 1}${path.extname(item)}`
+                `${dirPath}\\${newName} ${indexOfFilesNotFound[
+                  index
+                ]}${path.extname(item)}`
               );
-              return `${dirPath}\\${newName} ${index + 1}${path.extname(item)}`;
+              return `${dirPath}\\${newName} ${indexOfFilesNotFound[
+                index
+              ]}${path.extname(item)}`;
             });
             return {
-              totalFilesRenamed: files.length,
+              totalFilesRenamed: filesNotFound.length,
               renamedFiles: renamedFiles
             };
           } else {
-            return `Some Files with name \"${newName}\" already exists`;
+            return `\'${filesFound.length}\' Files with name \"${newName}\" already exists`;
           }
         } else {
           return `No files found in \"${dirPath}\" folder`;
