@@ -1,5 +1,12 @@
 const fs = require("fs");
 const path = require("path");
+const readDir = require("./lib/readDir.js");
+const getFiles = require("./lib/getFiles.js");
+const fndFlswName = require("./lib/fndFlswName.js");
+const fndFlsNotFound = require("./lib/fndFlsNotFound.js");
+const getIdxofFilesFound = require("./lib/getIdxofFilesFound.js");
+const getIdxofFilesNotFound = require("./lib/getIdxofFilesnotFound.js");
+const rnFlsNFndwNameAIdx = require("./lib/rnFlsNFndwNameAIdx.js");
 module.exports = {
   moveData: (oldPath, newPath) => {
     if (fs.existsSync(oldPath) && fs.existsSync(newPath)) {
@@ -31,57 +38,24 @@ module.exports = {
   },
   renameAllFiles: (dirPath, newName = "File") => {
     if (fs.existsSync(dirPath) && dirPath) {
-      let content = fs.readdirSync(dirPath);
+      let content = readDir(dirPath);
       if (content.length > 0) {
-        let files = content.filter(item => {
-          if (path.extname(item)) {
-            return item;
-          }
-        });
+        let files = getFiles(content);
         if (files.length > 0) {
-          let filesFound = [];
-          let filesNotFound = [];
-          for (let i = 0; i < files.length; i++) {
-            for (let j = 0; j < files.length; j++) {
-              if (files[i] === `${newName} ${j + 1}${path.extname(files[i])}`) {
-                filesFound.push(files[i]);
-              }
-            }
-          }
-          filesNotFound = files.filter(file => {
-            return filesFound.indexOf(file) === -1;
-          });
+          let filesFound = fndFlswName(files, newName);
+          let filesNotFound = fndFlsNotFound(files, filesFound);
           if (filesNotFound.length > 0) {
-            let indexOfFilesFound = [];
-            let indexOfFilesNotFound = [];
-            filesFound.map(file => {
-              indexOfFilesFound.push(
-                file.split(" ")[file.split(" ").length - 1].split(".")[0]
-              );
-            });
-            indexOfFilesFound = indexOfFilesFound
-              .map(val => {
-                return parseInt(val);
-              })
-              .sort((a, b) => {
-                return a - b;
-              });
-            for (let i = 0; i < files.length; i++) {
-              if (!indexOfFilesFound.includes(i + 1)) {
-                indexOfFilesNotFound.push(i + 1);
-              }
-            }
-            let renamedFiles = filesNotFound.map((item, index) => {
-              fs.renameSync(
-                `${dirPath}\\${item}`,
-                `${dirPath}\\${newName} ${indexOfFilesNotFound[
-                  index
-                ]}${path.extname(item)}`
-              );
-              return `${dirPath}\\${newName} ${indexOfFilesNotFound[
-                index
-              ]}${path.extname(item)}`;
-            });
+            let indexOfFilesFound = getIdxofFilesFound(filesFound);
+            let indexOfFilesNotFound = getIdxofFilesNotFound(
+              files,
+              indexOfFilesFound
+            );
+            let renamedFiles = rnFlsNFndwNameAIdx(
+              filesNotFound,
+              indexOfFilesNotFound,
+              newName,
+              dirPath
+            );
             return {
               totalFilesRenamed: filesNotFound.length,
               renamedFiles: renamedFiles
