@@ -1,6 +1,6 @@
 # files-guru
 
-#### version 1.0.2
+#### version 1.0.3
 
 **files-guru** is a lightweight and efficient file management tool for Node.js applications, designed to simplify operations such as moving, renaming, and manipulating files.
 
