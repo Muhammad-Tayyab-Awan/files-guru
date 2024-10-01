@@ -16,3 +16,12 @@ Install the package using npm:
 ```bash
 npm install files-guru
 ```
+## How to Use
+
+```js
+import filesGuru from "files-guru";
+
+// first funtion to rename all the files in a directory according to the given name by default it will rename all files with name as File [filenumber].[extension]
+
+filesGuru.renameAllFiles("here should be the path to that directory","here should be the neName");
+```
