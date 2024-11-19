@@ -1,7 +1,12 @@
 # files-guru
 
 #### version 1.0.3
-
+Possible badges include:
+- npm version: `[![NPM Version][npm-image]][npm-url]`
+- npm downloads: `[![NPM Downloads][downloads-image]][downloads-url]`
+- Build status: `[![Build Status][travis-image]][travis-url]`
+- Test coverage: `[![Test Coverage][coveralls-image]][coveralls-url]`
+- Tips: `[![Gratipay][gratipay-image]][gratipay-url]`
 **files-guru** is a lightweight and efficient file management tool for Node.js applications, designed to simplify operations such as moving, renaming, and manipulating files.
 
 ## Features
